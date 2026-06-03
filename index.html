@@ -1,0 +1,1800 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Test interactivo 02MSEC - Procesos y contextos educativos</title>
+  <style>
+    :root{
+      --bg:#0f172a;--panel:#111827;--card:#1f2937;--muted:#94a3b8;--text:#e5e7eb;
+      --accent:#f97316;--accent2:#fb923c;--ok:#22c55e;--bad:#ef4444;--line:#334155;
+      --btn:#273449;--btnHover:#334155;--warn:#f59e0b;
+    }
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(circle at top,#1e293b,var(--bg));color:var(--text)}
+    header{padding:28px 18px 14px;max-width:1100px;margin:0 auto} h1{margin:0;font-size:clamp(1.6rem,3vw,2.6rem);letter-spacing:-.02em}.subtitle{color:var(--muted);margin-top:8px}
+    main{max-width:1100px;margin:0 auto;padding:10px 18px 40px}.panel{background:rgba(17,24,39,.88);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 18px 45px rgba(0,0,0,.24)}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.field label{display:block;font-size:.84rem;color:var(--muted);margin:0 0 6px}.field select,.field input{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--text);padding:11px 12px;font-size:1rem}
+    .toggles{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.toggle{display:flex;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;color:var(--text)}
+    button{border:0;border-radius:12px;padding:11px 15px;font-weight:700;color:white;background:linear-gradient(135deg,var(--accent),var(--accent2));cursor:pointer;transition:.12s transform,.12s filter}button:hover{filter:brightness(1.08);transform:translateY(-1px)}button.secondary{background:var(--btn);border:1px solid var(--line)}button.secondary:hover{background:var(--btnHover)}button:disabled{opacity:.55;cursor:not-allowed;transform:none}
+    .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0}.stat{background:rgba(31,41,55,.75);border:1px solid var(--line);border-radius:14px;padding:12px}.stat b{display:block;font-size:1.35rem}.stat span{color:var(--muted);font-size:.86rem}
+    .quiz{margin-top:16px}.progressWrap{height:10px;background:#0b1220;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin:10px 0 16px}.progress{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--ok));transition:width .25s}.meta{display:flex;justify-content:space-between;color:var(--muted);gap:12px;flex-wrap:wrap}.questionCard{background:rgba(31,41,55,.92);border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:12px}.badge{display:inline-flex;align-items:center;border:1px solid rgba(249,115,22,.45);background:rgba(249,115,22,.12);color:#fed7aa;border-radius:999px;padding:5px 10px;font-size:.82rem;font-weight:700;margin-bottom:12px}.qtext{font-size:1.2rem;line-height:1.45;margin:0 0 16px}.answers{display:grid;gap:10px}.answer{width:100%;text-align:left;background:var(--btn);border:1px solid var(--line);border-radius:14px;padding:14px 15px;font-weight:600;color:var(--text)}.answer:hover{background:var(--btnHover)}.answer.correct{background:rgba(34,197,94,.18);border-color:rgba(34,197,94,.85)}.answer.wrong{background:rgba(239,68,68,.18);border-color:rgba(239,68,68,.85)}.answer.reveal{outline:2px solid rgba(34,197,94,.65)}
+    .feedback{margin-top:14px;padding:12px 14px;border-radius:14px;border:1px solid var(--line);display:none}.feedback.ok{display:block;background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.6)}.feedback.bad{display:block;background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.6)}
+    .nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:16px;flex-wrap:wrap}.hidden{display:none!important}.results{margin-top:16px}.scoreBig{font-size:3.2rem;font-weight:900;line-height:1;color:var(--accent2)}.reviewList{display:grid;gap:12px;margin-top:16px}.reviewItem{background:rgba(31,41,55,.85);border:1px solid var(--line);border-radius:14px;padding:14px}.reviewItem .small{color:var(--muted);font-size:.9rem}.pill{display:inline-block;border-radius:999px;padding:3px 8px;font-size:.78rem;font-weight:700;margin-right:6px}.pill.ok{background:rgba(34,197,94,.18);color:#86efac}.pill.bad{background:rgba(239,68,68,.18);color:#fca5a5}.footerNote{color:var(--muted);font-size:.85rem;margin-top:18px}.kbd{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:#0b1220;border:1px solid var(--line);padding:2px 6px;border-radius:6px;color:#cbd5e1}
+    @media(max-width:800px){.grid,.stats{grid-template-columns:1fr 1fr}.nav{align-items:stretch}.nav button{flex:1}}@media(max-width:520px){.grid,.stats{grid-template-columns:1fr}header,main{padding-left:12px;padding-right:12px}.questionCard{padding:16px}.qtext{font-size:1.08rem}}
+  </style>
+</head>
+<body>
+<header>
+  <h1>Test interactivo 02MSEC</h1>
+  <div class="subtitle">Procesos y contextos educativos · Tema 1 y Tema 2 · preparado para GitHub Pages</div>
+</header>
+<main>
+  <section id="setup" class="panel">
+    <div class="grid">
+      <div class="field"><label for="topic">Bloque</label><select id="topic"><option value="all">Todos</option><option value="TEMA 1">Tema 1</option><option value="TEMA 2">Tema 2</option><option value="failed">Solo falladas guardadas</option></select></div>
+      <div class="field"><label for="count">Número de preguntas</label><select id="count"><option value="20">20</option><option value="30" selected>30</option><option value="50">50</option><option value="all">Todas</option></select></div>
+      <div class="field"><label for="mode">Modo</label><select id="mode"><option value="instant" selected>Corrección inmediata</option><option value="exam">Modo examen</option></select></div>
+      <div class="field"><label>&nbsp;</label><button id="startBtn" style="width:100%">Empezar test</button></div>
+    </div>
+    <div class="toggles" style="margin-top:12px">
+      <label class="toggle"><input type="checkbox" id="shuffleQ" checked> Mezclar preguntas</label>
+      <label class="toggle"><input type="checkbox" id="shuffleA" checked> Mezclar respuestas</label>
+      <button class="secondary" id="clearFailed">Borrar falladas guardadas</button>
+    </div>
+    <div class="stats" id="bankStats"></div>
+    <div class="footerNote">Consejo: puedes usar <span class="kbd">1</span>, <span class="kbd">2</span>, <span class="kbd">3</span>, <span class="kbd">4</span> para responder y <span class="kbd">Enter</span> para avanzar.</div>
+  </section>
+
+  <section id="quiz" class="quiz hidden">
+    <div class="panel">
+      <div class="meta"><span id="counter"></span><span id="liveScore"></span></div>
+      <div class="progressWrap"><div id="progress" class="progress"></div></div>
+      <div class="questionCard">
+        <div id="badge" class="badge"></div>
+        <p id="qtext" class="qtext"></p>
+        <div id="answers" class="answers"></div>
+        <div id="feedback" class="feedback"></div>
+        <div class="nav">
+          <button class="secondary" id="quitBtn">Salir</button>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="secondary" id="skipBtn">Saltar</button>
+            <button id="nextBtn" disabled>Siguiente</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="results" class="results hidden panel">
+    <div class="scoreBig" id="finalScore"></div>
+    <h2 id="finalTitle"></h2>
+    <p id="finalText" class="subtitle"></p>
+    <div class="nav" style="justify-content:flex-start">
+      <button id="retryFailed">Repasar falladas</button>
+      <button class="secondary" id="newTest">Nuevo test</button>
+      <button class="secondary" id="exportResults">Copiar resumen</button>
+    </div>
+    <div id="review" class="reviewList"></div>
+  </section>
+</main>
+<script>
+const BANK = [
+  {
+    "tema": "TEMA 1",
+    "question": "¿Cuántos cursos comprende la Educación Secundaria Obligatoria?",
+    "options": [
+      "Ocho.",
+      "Dos.",
+      "Seis.",
+      "Cuatro"
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Qué nombre recibe en la actualidad, con la LOMLOE, los programas que encaminan a cierto alumnado hacia vías profesionales?",
+    "options": [
+      "Formación Profesional Inicial.",
+      "Programas de Garantía Social.",
+      "Programas de Diversificación Curricular.",
+      "Ciclos Formativos de Grado Básico"
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿En qué año entró en vigor la LOE?",
+    "options": [
+      "2016.",
+      "1996.",
+      "2006.",
+      "1986."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Las competencias clave LOMLOE están recogidas legislativamente y enumeradas en:",
+    "options": [
+      "En los decretos autonómicos.",
+      "La introducción del real decreto de enseñanzas mínimas.",
+      "Todas son correctas.",
+      "El anexo I del real decreto de enseñanzas mínimas."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Qué ley introdujo el concepto de “descriptores operativos” en el diseño curricular?",
+    "options": [
+      "LOE.",
+      "LOMLOE.",
+      "LOMCE.",
+      "LOCE."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Tras la aparición de la LOMLOE, los saberes básicos de cada materia de educación secundaria se publican legislativamente en:",
+    "options": [
+      "La introducción del real decreto de enseñanzas mínimas.",
+      "El anexo I del real decreto de enseñanzas mínimas.",
+      "No aparecen en el real decreto porque eso se desarrolla sólo en los decretos autonómicos.",
+      "El anexo II del real decreto de enseñanzas mínimas."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Regulación de los elementos que determinan los procesos de enseñanza y aprendizaje para cada una de las enseñanzas:",
+    "options": [
+      "Competencia.",
+      "Curso escolar.",
+      "Bloque.",
+      "Currículum."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Con la LOMLOE, promocionará automáticamente el alumnado que… (señala la opción correcta).",
+    "options": [
+      "Ya haya repetido previamente, en dos ocasiones, a lo largo de su escolarización obligatoria.",
+      "Todas son correctas.",
+      "Ya haya repetido una vez el curso sobre el que se realiza la evaluación.",
+      "Apruebe todas las materias."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Qué ley añadió las competencias como elemento curricular?",
+    "options": [
+      "LOCE.",
+      "LOMCE.",
+      "LOGSE.",
+      "LOE."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Cuál es la Ley educativa vigente en la actualidad en España?",
+    "options": [
+      "LOMCE.",
+      "LOMLOE.",
+      "LOCE.",
+      "Todas son correctas."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Se trata de un elemento curricular exclusivo de LOMCE:",
+    "options": [
+      "Metodología.",
+      "Criterios de Evaluación.",
+      "Estándares de Aprendizaje",
+      "Saberes Básicos."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Qué ley fue derogada antes de llegar a implantarse en el calendario escolar?",
+    "options": [
+      "LOCE.",
+      "LOGSE.",
+      "LOMCE.",
+      "LOE"
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Versión consolidada de una ley significa:",
+    "options": [
+      "La ley tal cual fue publicada en su origen.",
+      "La ley inicial corregida, con añadidos posteriores o eliminación de alguna de las partes.",
+      "La ley resumida en sus partes esenciales.",
+      "La ley comparada con otras leyes similares."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Según el desarrollo legislativo de la LOMLOE, las competencias específicas están ubicadas dentro de:",
+    "options": [
+      "Cada materia.",
+      "Situaciones de aprendizaje.",
+      "Los objetivos de etapa.",
+      "Los criterios de evaluación."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Según el desarrollo legislativo de la LOMLOE, los descriptores operativos están ubicados dentro de:",
+    "options": [
+      "Las competencias clave.",
+      "Las competencias específicas.",
+      "Las situaciones de aprendizaje.",
+      "Los objetivos de etapa."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "La ley más longeva de la historia de la legislación educativa española es o ha sido:",
+    "options": [
+      "La Ley Orgánica reguladora del derecho a la educación.",
+      "La Ley Orgánica de Educación.",
+      "La Ley General de Educación.",
+      "La Ley de Instrucción Pública o ley Moyano."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Con la aparición de la LOMLOE, desaparecen del listado de elementos curriculares:",
+    "options": [
+      "Las competencias clave.",
+      "Los objetivos de etapa.",
+      "Los estándares de aprendizaje",
+      "Los criterios de evaluación"
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Las leyes educativas se publican en:",
+    "options": [
+      "El boletín oficial del ministerio de educación.",
+      "El boletín oficial del estado.",
+      "Todas son correctas.",
+      "Los boletines oficiales autonómicos."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Ley que sigue vigente a día de hoy, aunque con alguna modificación:",
+    "options": [
+      "LODE.",
+      "LOPEGCE.",
+      "LOGSE.",
+      "LOCE."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Elemento que no forma parte del currículo",
+    "options": [
+      "Competencias específicas.",
+      "Competencias clave.",
+      "Criterios de evaluación.",
+      "Distribuciones horarias."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Donde suele encontrarse explicitado el currículo estatal",
+    "options": [
+      "En la ley vigente.",
+      "En los decretos curriculares.",
+      "No se suele publicar.",
+      "En el Real Decreto de Currículo o enseñanzas mínimas."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Quién podrá diseñar métodos pedagógicos y didácticos propios?",
+    "options": [
+      "Ministerio de educación cultura y deporte.",
+      "Gobierno.",
+      "Administraciones educativas.",
+      "Centros educativos."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Incorporaba por primera vez los estándares de aprendizaje entre los elementos curriculares",
+    "options": [
+      "LODE.",
+      "LOGSE.",
+      "LOMCE",
+      "LOPEGC"
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "La enumeración de los descriptores de perfil de salida solemos encontrarla en la legislación…",
+    "options": [
+      "Entre los primeros artículos del Real Decreto de enseñanzas mínimas.",
+      "No se suelen enumerar porque son muchos.",
+      "Entre las consideraciones finales del decreto autonómico.",
+      "En el ANEXO I del Real Decreto de Currículo."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "La COMPETENCIA PLURILINGÜE aparece por primera vez en la",
+    "options": [
+      "LOGSE.",
+      "LOMCE.",
+      "LOMLOE.",
+      "LOE."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Para promocionar el curso, con la LOMLOE... (señala la respuesta correcta)",
+    "options": [
+      "Se puede promocionar habiendo suspendido Matemáticas y Lengua Castellana.",
+      "Se puede promocionar con una materia pendiente.",
+      "Se puede promocionar 3 materias pendientes si a juicio del claustro es conveniente.",
+      "Todas son correctas."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Cuál de los siguientes es un principio de la LOE?",
+    "options": [
+      "Educación obligatoria hasta los 14 años.",
+      "Todas son correctas.",
+      "La equidad.",
+      "Aparición de las competencias clave."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿En qué año se aprobó la LODE?",
+    "options": [
+      "1995.",
+      "2005.",
+      "1985.",
+      "1905."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Según el desarrollo de la LOMLOE, los criterios de evaluación están ubicados dentro de",
+    "options": [
+      "Las competencias clave.",
+      "Las situaciones de aprendizaje.",
+      "Las competencias específicas",
+      "Los objetivos de etapa LOGSE."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "La materia de Educación en Valores Éticos y Cívicos.",
+    "options": [
+      "Se cursará de manera voluntaria por el alumnado a lo largo de toda la ESO.",
+      "Se cursará obligatoriamente por todo el alumnado en 1º de ESO.",
+      "Se podrá cursar voluntariamente en 4ª de ESO.",
+      "Se cursará obligatoriamente por todo el alumnado en algún curso de la ESO"
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Si hay un concepto que puede describir el sistema educativo español de estas últimas tres décadas, es el de:",
+    "options": [
+      "Estable.",
+      "Educativo.",
+      "Cambiante.",
+      "Diferente."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "La ESO contribuirá a desarrollar en los alumnos y las alumnas las capacidades que les permitan:",
+    "options": [
+      "Todas son correctas.",
+      "Concebir el conocimiento científico como un saber integrado.",
+      "Conocer y aceptar el funcionamiento del propio cuerpo.",
+      "Apreciar la creación artística."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿En qué año entró en vigor la LOGSE?",
+    "options": [
+      "1996.",
+      "2006.",
+      "1990.",
+      "2001."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Tras la aparición de la LOMLOE, los objetivos de etapa se enumeran legislativamente en:",
+    "options": [
+      "La introducción del real decreto de enseñanzas mínimas.",
+      "El anexo I del real decreto de enseñanzas mínimas.",
+      "El anexo II del real decreto de enseñanzas mínimas.",
+      "No aparecen en el real decreto porque eso se desarrolla sólo en los decretos autonómicos."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Las competencias específicas de cada materia las podemos localizar en el real decreto de enseñanzas mínimas, concretamente en …",
+    "options": [
+      "La introducción.",
+      "El anexo III.",
+      "El anexo I.",
+      "El anexo II."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Tras la aparición de la LOMLOE, el desglose de las diversas competencias clave en los descriptores operativos se publica legislativamente en",
+    "options": [
+      "El anexo I del real decreto de enseñanzas mínimas.",
+      "El anexo II del real decreto de enseñanzas mínimas.",
+      "La introducción del real decreto de enseñanzas mínimas.",
+      "No aparecen en el real decreto porque eso se desarrolla sólo en los decretos autonómicos."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Tras la aparición de la LOMLOE, la relación entre las competencias específicas y los diferentes descriptores operativos se publican legislativamente en",
+    "options": [
+      "El anexo I del real decreto de enseñanzas mínimas.",
+      "No aparecen en el real decreto porqué eso se desarrolla sólo en los decretos autonómicos.",
+      "El anexo II del real decreto de enseñanzas mínimas.",
+      "La introducción del real decreto de enseñanzas mínimas."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Los resultados de aprendizaje son un elemento curricular que está presente en",
+    "options": [
+      "LOMCE exclusivamente (eso sí, en FP).",
+      "LOMLOE exclusivamente (eso sí, en FP).",
+      "LOMCE Y LOMLOE (eso sí, en FP).",
+      "En ninguna de las dos leyes mencionadas."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "En relación a la materia de Religión (señala la afirmación correcta):",
+    "options": [
+      "El alumnado que no curse la materia de religión tendrá una materia alternativa. Valores Éticos.",
+      "La materia de religión también computará en la obtención de la nota media a efectos de acceso a otros estudios.",
+      "La materia de religión será de oferta voluntaria por parte de los centros educativos.",
+      "La evaluación de las enseñanzas de religión se realizará en los mismos términos y con los mismos efectos que la de las otras materias."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "En relación a la materia de Religión (señala la afirmación correcta):",
+    "options": [
+      "La materia es de oferta obligatoria",
+      "La evaluación será obligatoria",
+      "La materia computará en la nota media",
+      "Ninguna es correcta."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "\"Los centros docentes dispondrán de autonomía pedagógica, de organización y de gestión\". Esta afirmación está recogida en la ley educativa...",
+    "options": [
+      "Todas son correctas.",
+      "LOE.",
+      "LOCE.",
+      "LOPEGCE."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Las siglas I.E.S. hacen referencia a:",
+    "options": [
+      "Instituto de Educación Secundaria.",
+      "Instituto Escolar de Secundaria.",
+      "Institución de Educación Secundaria.",
+      "Institución de Educación Superior."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Cuántas competencias clave como ejes instrumentales se mencionan en la LOMLOE?",
+    "options": [
+      "Siete.",
+      "Diez.",
+      "Once.",
+      "Ocho."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Cuál de las siguientes leyes es la que actualmente sigue vigente, aunque con alguna modificación?",
+    "options": [
+      "LOCE.",
+      "LODE",
+      "LOE.",
+      "LOPEGCE"
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Cuál de los siguientes elementos no es un componente del currículo?",
+    "options": [
+      "Las competencias clave.",
+      "La distribución horaria.",
+      "Los criterios de evaluación.",
+      "Las competencias específicas."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Tras la aparición de la LOMLOE, los saberes básicos de cada materia de la ESO, se publican legislativamente en:",
+    "options": [
+      "En el anexo II del Real Decreto de Enseñanzas Mínimas.",
+      "El anexo I del Real Decreto de Enseñanzas Mínimas.",
+      "No aparecen en el Real Decreto porque eso se desarrolla sólo en los decretos autonómicos.",
+      "La introducción del Real Decreto de Enseñanzas Mínimas."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Según el desarrollo legislativo de la LOMLOE, los criterios de evaluación están ubicados dentro de:",
+    "options": [
+      "Las situaciones de aprendizaje.",
+      "Las competencias clave.",
+      "Las competencias específicas",
+      "Los objetivos de etapa."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Si hablamos de tipos de Centros, según el manual 02MSEC edición 2024, la prestación de la educación se realizará, a través de:",
+    "options": [
+      "Los centros públicos en exclusiva.",
+      "Los centros públicos y privados concertados.",
+      "Cualquier tipo de centro educativo (público o privado).",
+      "Todas son correctas."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Cuál de las siguientes leyes de educación propugnaba un modelo de enseñanza constructivista, aprendizaje significativo, etc.?",
+    "options": [
+      "LOGSE.",
+      "LOE.",
+      "LGE.",
+      "LOMCE."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "La atención a la diversidad se inspira en:",
+    "options": [
+      "La idea de escuela inclusiva",
+      "El diseño universal del aula.",
+      "Un equilibrio social desde la educación.",
+      "La concepción de escuela libre."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "La COMPETENCIA PLURILINGÜE aparece por primera vez en las:",
+    "options": [
+      "Las competencias clave de LOMLOE",
+      "Las situaciones de aprendizaje.",
+      "Los objetivos de etapa.",
+      "Las competencias específicas."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿A partir de qué ley el profesorado debe participar en la elaboración del proyecto educativo y la Programación Anual?",
+    "options": [
+      "LOPEG",
+      "LOGSE",
+      "LOMCE",
+      "LOCE"
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Qué comprende la Educación básica según la LOMLOE?",
+    "options": [
+      "Primaria y ESO (incompleta, pero es la que más se acerca)",
+      "Formación Profesional",
+      "Todas son incorrectas",
+      "Programas de Garantía Social"
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Incorporaba los estándares de aprendizaje en pro del principio de mayor calidad igual a mayor rendimiento",
+    "options": [
+      "LOPEGCE",
+      "LOGSE",
+      "LOMCE",
+      "LODE"
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Cuál de las siguientes respuestas no es un elemento transversal de la LOMLOE?",
+    "options": [
+      "La educación cívica y constitucional",
+      "La comprensión lectora",
+      "La expresión oral pero no escrita",
+      "Las TICs"
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Cuál de las siguientes leyes está modificada por la LOMLOE?",
+    "options": [
+      "LOMCE",
+      "LOE",
+      "LOCE",
+      "LGE"
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿A qué ley educativa llamamos Ley de La Libertad?",
+    "options": [
+      "LODE",
+      "LOGSE",
+      "Todas son correctas",
+      "LOPEG"
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Qué ley supuso aumentar el tramo de edad de la enseñanza obligatoria hasta los 16 años?",
+    "options": [
+      "LODE",
+      "LOGSE",
+      "Ley Moyano",
+      "LGE"
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Dónde suele encontrarse explicitado el currículo estatal?",
+    "options": [
+      "En los decretos curriculares",
+      "No se suele publicar",
+      "En la ley vigente",
+      "En el Real Decreto de Currículo o enseñanzas mínimas."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Qué elementos configuran el perfil de salida del alumnado en educación básica?",
+    "options": [
+      "Perfil del ciudadano que se quiera formar en valores, competencia clave y específicas y principios que lo fundamenten.",
+      "Educación igualitaria",
+      "Valores y principios",
+      "Competencias clave, criterios, saberes y ámbitos"
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Qué nombre recibe en la actualidad, con la LOMLOE, los programas que encaminan a cierto alumnado hacia vías profesionales?",
+    "options": [
+      "Programas de Garantía Social",
+      "Formación Profesional Inicial",
+      "Ciclos Formativos de Grado Básico",
+      "Programas de Diversificación Curricular"
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Se trata de un elemento curricular exclusivo de LOMLOE:",
+    "options": [
+      "Estándares de aprendizaje.",
+      "Contenidos",
+      "Objetivos generales",
+      "Situaciones de aprendizaje"
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Cuál de las siguientes leyes no sigue vigente en la actualidad?",
+    "options": [
+      "LODE",
+      "LOE",
+      "LOMLOE",
+      "LOMCE"
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Cuál es la Ley educativa vigente en la actualidad en España? REPE 10",
+    "options": [
+      "Todas son correctas.",
+      "LOMLOE",
+      "LOCE",
+      "LOMCE"
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "En relación a la materia de Religión (señala la afirmación correcta)",
+    "options": [
+      "Ninguna es correcta",
+      "La materia de religión será de oferta obligatoria por parte de los centros educativos",
+      "La materia de religión también computará en la obtención de la nota media a efectos de acceso a otros estudios",
+      "La evaluación de las enseñanzas de religión será obligatoria."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "¿Qué ley añadió las competencias como elemento curricular?",
+    "options": [
+      "LOGSE",
+      "LOE",
+      "LOMCE",
+      "LOCE"
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "La evolución histórica del sistema educativo español, viene marcada por la aprobación sucesiva de las siguientes Leyes:",
+    "options": [
+      "LEGS-LODE-LOGSE-LOPEGC-LOCE",
+      "LGE-LODE-LOGSE-LOPEGC-LOCE",
+      "LGE-LODE-LOGSE-LOPEGC-LOCE",
+      "LGE-LOSDE-LOGSE-LOPEGC-LOCE"
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "La ley que reformuló el sistema educativo y adoptó como modelo de enseñanza pedagógica el constructivismo, fue:",
+    "options": [
+      "LOGSE",
+      "LODE",
+      "LOPEGC",
+      "LOCE"
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Según la LOE (2.006, artículo 6), los elementos que componen el currículum son cinco:",
+    "options": [
+      "Los objetivos, los criterios de calificación, los contenidos, la metodología y la evaluación.",
+      "Los objetivos, actitudes, los contenidos, la metodología y la evaluación.",
+      "Los objetivos, las competencias básicas, los contenidos, la metodología y la evaluación.",
+      "Los objetivos, materiales, los contenidos, la metodología y la evaluación."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Según el Profesor Jaume Tuset, Los documentos institucionales contingentes son:",
+    "options": [
+      "La Programación General Anual y la Memoria Anual de Centro.",
+      "La Programación General Anual, el Proyecto de Gestión y la Memoria Anual de Centro.",
+      "La Programación General Anual, el Plan de Convivencia y la Memoria Anual de Centro.",
+      "La Programación General Anual, el Proyecto de Calidad y la Memoria Anual de Centro."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "El equipo directivo, es:",
+    "options": [
+      "El órgano responsable de gobierno de los centros públicos.",
+      "El órgano presidencial de gobierno de los centros públicos.",
+      "El órgano asesor de gobierno de los centros públicos.",
+      "El órgano ejecutivo de gobierno de los centros públicos."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Actualmente, los programas destinados al alumnado mayor de 16 años, cumplidos antes del 31 de Diciembre del año del inicio del programa, que no hayan obtenido el título de Graduado de ESO, son los:",
+    "options": [
+      "Programas de cualificación profesional inicial.",
+      "PCPPI- Q",
+      "Programas de diversificación curricular",
+      "D. Ciclos Formativos."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "La admisión de alumnos en centros públicos y privados concertados, con la finalidad de garantizar el derecho a la educación, es regulada por:",
+    "options": [
+      "Las asociaciones de los padres",
+      "Las empresas de la localidad",
+      "Las administraciones educativas",
+      "Los padres con hijos que sufren fracaso escolar."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "Democratizar la enseñanza, significa también compensar las desigualdades de origen, garantizando la:",
+    "options": [
+      "Atención a la diversidad.",
+      "Equidad y la inclusividad efectiva.",
+      "Escolarización masiva.",
+      "Escolarización selectiva."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 1",
+    "question": "El último nivel de concreción curricular que hemos de atender, como docentes, es:",
+    "options": [
+      "La guía didáctica de la asignatura",
+      "La programación anual.",
+      "La propuesta curricular de nivel.",
+      "La programación didáctica de aula."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "El Proyecto Educativo del Centro (PEC) es:",
+    "options": [
+      "El Proyecto de Gestión.",
+      "Un Documento de planificación contingente.",
+      "Un Documento de planificación permanente.",
+      "Un documento que perdura siempre en el Centro, inamovible"
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Cuál de las siguientes no es una de las funciones de un director?",
+    "options": [
+      "Hacer respetar las normas recogidas en el Reglamento de Organización y Funcionamiento del centro.",
+      "Estar presente en todos los exámenes del alumnado del centro.",
+      "Dirigir y coordinar todas las actividades del centro escolar.",
+      "Realizar las contrataciones de obras, servicios y suministros de acuerdo con lo que a tales efectos quede estipulado."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "En el caso de que un docente imparta asignaturas vinculadas a varios departamentos, deberá pertenecer:",
+    "options": [
+      "A aquel que esté relacionado con sus estudios universitarios.",
+      "A aquel en el que tenga mayor carga de horas lectivas.",
+      "A aquel que le interese más.",
+      "A todos en el que tenga carga lectiva."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "El Proyecto Educativo del Centro es un documento que articula la…",
+    "options": [
+      "Autonomía de Gestión.",
+      "Ninguna es correcta.",
+      "Autonomía organizativa.",
+      "Autonomía Pedagógica."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Analizar y valorar el funcionamiento general del centro, la evolución del rendimiento escolar y los resultados de las evaluaciones internas y externas en las que participe el centro...es una función propia de:",
+    "options": [
+      "Consejo Escolar.",
+      "Personal Administrativo.",
+      "Comisión de Coordinación Pedagógica.",
+      "Equipo Directivo."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Cómo llamamos a aquella figura de gestión en la que los docentes del centro son consultados y oídos en los momentos de toma de decisiones?",
+    "options": [
+      "Equipo directivo.",
+      "Claustro de Profesores.",
+      "Consejo escolar.",
+      "AMPA."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Qué documento recoge los valores, objetivos y prioridades de actuación del centro?",
+    "options": [
+      "Normas de organización y funcionamiento de los centros.",
+      "Programación General Anual.",
+      "Proyecto Educativo.",
+      "Proyecto de Gestión."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Por el mero hecho de impartir una materia en un curso cualquiera de la ESO, se pertenece... (señala la que no proceda).",
+    "options": [
+      "A un Departamento Didáctico.",
+      "A un Equipo Docente.",
+      "Al Claustro de Profesores.",
+      "Al Departamento de Orientación."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Por cuál de los siguientes está compuesto el Consejo Escolar?",
+    "options": [
+      "Director del centro.",
+      "Secretario del centro educativo.",
+      "Todas son correctas.",
+      "Jefe de estudios."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Documento que aborda las posibles adaptaciones del currículo, la integración de materias en ámbitos, los agrupamientos flexibles, los desdoblamientos de grupos, la oferta de materias optativas, programas de refuerzo y medidas de apoyo personalizado:",
+    "options": [
+      "Plan de Atención a la Diversidad.",
+      "Plan de Convivencia.",
+      "Proyecto de Gestión.",
+      "Plan de Acción Tutorial."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Cuál de las siguientes no es una función de los tutores?",
+    "options": [
+      "Elaborar las Adaptaciones Curriculares del alumnado de su tutoría con Necesidades Educativas Especiales.",
+      "Orientar y asesorar a los alumnos sobre sus posibilidades académicas y profesionales.",
+      "Facilitar la cooperación educativa entre los profesores y los padres de los alumnos.",
+      "Organizar y presidir la junta de profesores y las sesiones de evaluación de su grupo."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Es el documento institucional que cierra la planificación prevista a lo largo del curso académico recogida en la PGA:",
+    "options": [
+      "Plan de Acción Tutorial.",
+      "Plan de Atención a la Diversidad.",
+      "Plan de Acogida.",
+      "Memoria Anual del Centro."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Los centros privados concertados deberán hacer público su proyecto educativo e incorporarán su carácter propio o:",
+    "options": [
+      "Plan de aula.",
+      "Pronóstico.",
+      "Plan activo.",
+      "Ideario."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Qué no aparece recogido en un PGA?",
+    "options": [
+      "El horario de Escuela de Padres.",
+      "El programa anual de actividades extraescolares y servicios complementarios.",
+      "El calendario de reuniones de los órganos de gobierno del centro.",
+      "El horario del alumnado."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Qué órgano de coordinación docente no existirá en un instituto de Secundaria?",
+    "options": [
+      "Departamento de Actividades complementarias y extraescolares.",
+      "Tutor.",
+      "Departamento de Orientación.",
+      "Diversificación."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Qué órgano de coordinación docente no existirá en un instituto de Secundaria?",
+    "options": [
+      "Atención a la Diversidad.",
+      "Plan de convivencia.",
+      "Todas son correctas.",
+      "Acción tutorial."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Cuál es una competencia del Claustro de profesores?",
+    "options": [
+      "Promover iniciativas en el ámbito de la experimentación y de la investigación pedagógica.",
+      "Todas son correctas.",
+      "Realizar propuestas para la elaboración de los proyectos del centro y de la programación general anual.",
+      "Definir los criterios referentes a la orientación, tutoría, evaluación y recuperación de los alumnos."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Quién será el Presidente del claustro de profesores?",
+    "options": [
+      "El jefe de estudios.",
+      "Un profesor elegido por todos los miembros.",
+      "Director del centro.",
+      "Un profesor elegido por sorteo."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Son centros públicos aquellos cuya titularidad recae en:",
+    "options": [
+      "Una persona física o jurídica de carácter privado.",
+      "La administración pública.",
+      "Todas son correctas.",
+      "Centros privados que realizan un convenio con la administración pública para concertar de manera legal el servicio que prestan."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Qué tipo de centros son aquellos centros privados que realizan un convenio con la administración pública para concertar de manera legal el servicio que ofertan?",
+    "options": [
+      "Centros semiprivados.",
+      "Centros públicos.",
+      "Centros privados.",
+      "Centros concertados."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Según el manual, la presentación del servicio público de la educación de realizarla a través de:",
+    "options": [
+      "Cualquier tipo de centro educativo (público o privado).",
+      "Todas son correctas.",
+      "Los centros públicos en exclusiva.",
+      "Los centros públicos y privados concertados."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "La capacidad que puede tener el centro de intervenir en los procesos de La adscripción de personas al equipo de profesores estaría vinculada a la…",
+    "options": [
+      "Ninguna de las opciones es correcta.",
+      "Autonomía pedagógica.",
+      "Autonomía de gestión.",
+      "Autonomía organizativa."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Cuál es el órgano colegiado de gobierno a través del cual participan todos los estamentos de la comunidad educativa en el gobierno del centro?",
+    "options": [
+      "Equipo directivo.",
+      "Comunidad educativa.",
+      "Claustro de profesores.",
+      "Consejo escolar."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Establecer el horario que corresponde a cada materia es una función propia de:",
+    "options": [
+      "El consejo escolar.",
+      "El equipo directivo.",
+      "La comisión de coordinación pedagógica.",
+      "El claustro de profesores."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Cual de estos documentos no forma parte de la programación general Anual",
+    "options": [
+      "Medidas de atención a la diversidad.",
+      "El plan de convivencia.",
+      "El plan de acción Tutorial.",
+      "La rendición de cuentas anuales."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "De acuerdo con la legislación los centros tienen cuatro documentos importantes, ¿cuál de los siguientes no es uno de ellos?",
+    "options": [
+      "Proyecto de Actividades Extraescolares.",
+      "Programación General Anual.",
+      "Proyecto de Gestión.",
+      "Proyecto Educativo."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "La autonomía pedagógica tiene relación directa con:",
+    "options": [
+      "El Reglamento de Régimen Interior.",
+      "Las concreciones curriculares de etapa del centro.",
+      "El Proyecto de Gestión.",
+      "El Proyecto de Dirección."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Sistematización y organización de la acción tutorial, dentro de un programa conjunto:",
+    "options": [
+      "PAD.",
+      "PEC.",
+      "PMAR.",
+      "PAT."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Los documentos fundamentales mediante los cuales los centros articulan su autonomía pedagógica y curricular son:",
+    "options": [
+      "PAD.",
+      "PEC.",
+      "Presupuestos propios.",
+      "Normas de organización y funcionamiento de los centros."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "La labor de tutor debe quedar recogida y plasmada también en un documento denominado:",
+    "options": [
+      "Plan de Centro.",
+      "PMAR.",
+      "Plan de Acción Tutorial.",
+      "Memoria Anual de Centro."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "En los centros concertados (señala la correcta):",
+    "options": [
+      "Todas son correctas.",
+      "Los alumnos no forman parte del consejo escolar.",
+      "El director pedagógico preside el claustro de profesores.",
+      "El director titular preside el claustro de profesores."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Documento donde se recogen las funciones acordadas en el centro respecto de la tutoría y las propuestas de intervención en los diferentes ámbitos:",
+    "options": [
+      "Plan de gestión de centro.",
+      "Plan de Acción Tutorial.",
+      "Plan de Compensación Educativa.",
+      "Plan de Atención a la diversidad."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Elaborar la Programación General Anual y la Memoria Final… es una función propia de:",
+    "options": [
+      "La Comisión de Coordinación Pedagógica.",
+      "El Equipo Directivo.",
+      "El Consejo Escolar.",
+      "El Claustro de Profesores."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Por quién estará integrada la Comisión de Coordinación Pedagógica?",
+    "options": [
+      "Todas son correctas.",
+      "Director.",
+      "Coordinador de ciclo.",
+      "Jefe de Estudios."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Qué documento recogerá la ordenación y utilización de los recursos del centro, tanto materiales como humanos?",
+    "options": [
+      "Plan de gestión de centro.",
+      "Plan de Acción Tutorial.",
+      "Plan de Atención a la Diversidad.",
+      "Plan de Compensación Educativa."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Conjunto de normas internas de funcionamiento del centro:",
+    "options": [
+      "Reglamento de recursos.",
+      "Reglamento de Régimen Interior.",
+      "Reglamento funcional.",
+      "Reglamento de régimen exterior."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Responde a una planificación del centro a corto plazo, si bien posibilita de manera operativa alcanzar los objetivos trazados en el PEC:",
+    "options": [
+      "PA",
+      "PMAR",
+      "PGA",
+      "PEC"
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Cuál de las siguientes medidas no es propia de Atención a la Diversidad?",
+    "options": [
+      "El desdoblamiento de grupos.",
+      "Asignación de tutor/a a cada grupo de clase.",
+      "Los programas de refuerzo.",
+      "La integración de materias en ámbito."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "El documento fundamental mediante el cual los centros articulan su autonomía organizativa es:",
+    "options": [
+      "Normas morales.",
+      "Normas pedagógicas.",
+      "Presupuestos propios.",
+      "Normas de organización y funcionamiento de los centros."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Es un documento realizado con el objetivo de contemplar la atención de todo el alumnado de un centro, atendiendo con él a su diversidad y necesidades:",
+    "options": [
+      "Plan de Acción Tutorial.",
+      "Ninguna es correcta.",
+      "Memoria Anual de Centro.",
+      "Plan de Atención a la Diversidad."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "La forma en la que la administración educativa regula el trabajo de los docentes de un centro escolar es a través de la creación de:",
+    "options": [
+      "Asociaciones de padres y madres.",
+      "Ninguna es correcta.",
+      "Cuentas de correo electrónico corporativas.",
+      "Órganos de coordinación docente."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Las normas de convivencia son un elemento presente en los centros educativos y vinculado a la autonomía…",
+    "options": [
+      "De gestión.",
+      "Ninguna es correcta.",
+      "Organizativa.",
+      "Pedagógica."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Constituye las señas de identidad del centro docente y expresa la educación que desea y va a desarrollar en unas condiciones concretas:",
+    "options": [
+      "Proyecto educativo.",
+      "PGA.",
+      "Normas de organización y funcionamiento.",
+      "Proyecto de gestión."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Son funciones del tutor: (señala la que no proceda)",
+    "options": [
+      "Facilitar la integración de los alumnos en el grupo y fomentar en ellos el desarrollo de actitudes participativas.",
+      "Fomentar la cooperación educativa entre el profesorado y los padres y madres o tutores legales de los alumnos.",
+      "Supervisar las programaciones didácticas de aquellas materias que afectan al grupo que tutoriza.",
+      "Orientar al alumnado en sus procesos de aprendizaje."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Cuál de estos planes no se asume como propio del Departamento de Orientación",
+    "options": [
+      "El Plan de Orientación Académica y Profesional.",
+      "El Plan de Acción Tutorial.",
+      "El Plan de Convivencia.",
+      "El Plan de Transición y Acogida."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "En este documento se incluirán los horarios, calendario general, calendario de evaluación, de reuniones de coordinación, atención a familias, etc.:",
+    "options": [
+      "Normas de organización y funcionamiento.",
+      "Proyecto Educativo.",
+      "Programación General Anual.",
+      "Proyecto de Gestión."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Fijar los criterios referentes a la orientación, tutoría, evaluación y recuperación de los alumnos... es una función propia de:",
+    "options": [
+      "El Consejo Escolar.",
+      "La Comisión de Coordinación Pedagógica.",
+      "El Claustro de Profesores.",
+      "El Equipo Directivo."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Cuáles son las formas de abordar la acción tutorial con el alumnado?:",
+    "options": [
+      "Ninguna es correcta.",
+      "Online o presencial.",
+      "Solo individualmente.",
+      "En grupo e individualmente."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Señala la respuesta incorrecta:",
+    "options": [
+      "El Proyecto de Gestión es impulsado desde el Equipo Directivo.",
+      "La Memoria Final es un documento de carácter contingente.",
+      "La Programación General Anual se elabora cada curso escolar en los primeros meses.",
+      "El Proyecto Educativo del Centro es un documento de carácter contingente."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿En qué momento deben elaborar los centros educativos los PGA?",
+    "options": [
+      "Al final del curso anterior.",
+      "En las vacaciones de verano.",
+      "Al principio del curso.",
+      "Al final del curso."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "El Plan de Acción Tutorial debe contener acciones de:",
+    "options": [
+      "Transmisión de valores.",
+      "Educación para la prevención y resolución de conflictos y no violencia.",
+      "Todas son correctas.",
+      "Medidas para desarrollar la igualdad efectiva entre hombres y mujeres."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Estará constituido por diversos apartados que formarán el marco de referencia para reflexionar conjuntamente sobre los planteamientos pedagógicos:",
+    "options": [
+      "El Proyecto de Gestión es impulsado desde el Equipo Directivo.",
+      "Proyecto Educativo de centro.",
+      "Plan de acción tutorial.",
+      "Todas son correctas."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿En qué ciclo puede el alumnado comenzar a formar parte del Consejo Escolar?",
+    "options": [
+      "3º ciclo de Primaria.",
+      "1º ciclo de Secundaria.",
+      "2º ciclo de Secundaria.",
+      "2º ciclo de Primaria."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "La Atención a la Diversidad se inspira en: (señala la respuesta correcta).",
+    "options": [
+      "La equidad en la educación.",
+      "Todas son correctas.",
+      "La concepción de escuela inclusiva.",
+      "El Diseño Universal del Aprendizaje."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Un profesor, aunque se esté iniciando en la tarea docente, de entrada, formará parte de (señala la respuesta incorrecta)",
+    "options": [
+      "Un Equipo docente, por lo menos.",
+      "Un departamento didáctico.",
+      "La COCOPE.",
+      "El claustro de profesores."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Por cuál de los siguientes perfiles del centro está compuesto el Consejo Escolar?",
+    "options": [
+      "Jefe de estudios.",
+      "Director del centro.",
+      "Todas son correctas.",
+      "Secretario del centro educativo."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿En qué curso de la ESO puede el alumnado comenzar a formar parte del Consejo Escolar?",
+    "options": [
+      "1º de ESO.",
+      "2º de ESO.",
+      "4º de ESO.",
+      "3º de ESO."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "En lo pertinente a Documentos institucionales el Proyecto Educativo del Centro (PEC) es:",
+    "options": [
+      "Un documento de planificación contingente.",
+      "Un documento de planificación permanente.",
+      "El Proyecto de Gestión.",
+      "Un documento que perdura siempre en el Centro, inamovible."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Qué Ley introduce dentro de sus elementos curriculares las denominadas situaciones de aprendizaje?",
+    "options": [
+      "La LGE.",
+      "LOCE.",
+      "La LOMLOE.",
+      "La LOMCE."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿A qué ley debemos el instrumento de concierto?",
+    "options": [
+      "LOCE.",
+      "LGE.",
+      "LODE.",
+      "LOPEG."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "El documento marco de referencia para reflexionar conjuntamente, todos, sobre los planteamientos pedagógicos:",
+    "options": [
+      "Plan de acción tutorial.",
+      "Todas son correctas.",
+      "Plan de Atención a la Diversidad.",
+      "Proyecto Educativo del Centro."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Las concreciones del currículo en el marco de la LOMLOE para ESO-Bachillerato se publicaron BOE el año:",
+    "options": [
+      "2023.",
+      "2022",
+      "2020",
+      "2021."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Aquellos profesores que posean más de una especialidad o que ocupen una plaza asociada a varias especialidades pertenecerán al…",
+    "options": [
+      "A aquel que le interese más.",
+      "A aquel que esté relacionado con sus estudios universitarios.",
+      "Departamento al que corresponda la plaza ocupada, por concurso de traslado o por cualquier otro procedimiento, con independencia de que, en su caso, pudieran estar adscritos a otros departamentos en términos arriba indicado.",
+      "A todos en el que tenga carga lectiva."
+    ],
+    "answer": 2
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Qué documento se elabora en los 2 primeros meses del curso y pertenece a la autonomía pedagógica del centro:",
+    "options": [
+      "Normas de organización y funcionamiento.",
+      "Proyecto de Gestión.",
+      "Proyecto Educativo.",
+      "Programación General Anual."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Qué elementos configuran el perfil de salida del alumnado en educación básica?",
+    "options": [
+      "Perfil del ciudadano que se quiere formar. Valores, competencias clave y específicas y principios que lo fundamentan.",
+      "Educación igualitaria.",
+      "Valores y principios que lo fundamentan.",
+      "Competencias clave, criterios de evaluación, saberes básicos y ámbitos."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "En la Programación General Anual, no aparece...:",
+    "options": [
+      "El Plan de Acción Tutorial.",
+      "El Plan de Convivencia.",
+      "Medidas de Atención a la Diversidad.",
+      "La rendición de cuentas anual."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Documento que establece: cuáles son las funciones de los y las tutores/as, en relación a los diversos ámbitos de actuación:",
+    "options": [
+      "Plan de Compensación Educativa.",
+      "Plan de Acción Tutorial.",
+      "Plan de Atención a la diversidad.",
+      "Plan de gestión de centro."
+    ],
+    "answer": 1
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "La responsabilidad de la Programación General Anual y la Memoria Final recae en primer lugar en ...:",
+    "options": [
+      "El Equipo Directivo.",
+      "La Comisión de Coordinación Pedagógica.",
+      "El Claustro de Profesores.",
+      "El Consejo Escolar."
+    ],
+    "answer": 0
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Según el manual, la prestación del servicio público de la educación se realizará, a través de…",
+    "options": [
+      "Los centros públicos en exclusiva.",
+      "Todas son correctas.",
+      "Cualquier tipo de centro educativo (público o privado).",
+      "Los centros públicos y privados concertados."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "La PGA es un documento... (completa con la frase correcta).",
+    "options": [
+      "de carácter permanente.",
+      "que recoge, sobre todo, el presupuesto anual del centro.",
+      "emitido por la inspección educativa territorial.",
+      "de carácter contingente."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "El elemento curricular SITUACIONES DE APRENDIZAJE, en el Real Decreto de Enseñanzas Mínimas de Secundaria, se desarrolla en…",
+    "options": [
+      "en el anexo II, a continuación de los saberes básicos.",
+      "en la parte introductoria, en el artículo 6.",
+      "en el anexo I, antes de explicitar los descriptores.",
+      "un anexo específico de tan solo 2 páginas."
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "El siguiente descriptor (ver línea siguiente) está vinculado a la competencia clave... CC2. Analiza y asume fundadamente los principios y valores que emanan del proceso de integración europea, la Constitución española y los derechos humanos y de la infancia...",
+    "options": [
+      "Competencia en Comunicación",
+      "Competencia Cultural",
+      "Cualquier Competencia",
+      "Competencia Ciudadana"
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "¿Qué incluye el Proyecto Educativo?",
+    "options": [
+      "Plan de convivencia.",
+      "Acción tutorial.",
+      "Atención a la diversidad.",
+      "Todas son correctas"
+    ],
+    "answer": 3
+  },
+  {
+    "tema": "TEMA 2",
+    "question": "Estará constituido por diversos apartados que formarán el marco de referencia para reflexionar conjuntamente sobre los planeamientos pedagógicos:",
+    "options": [
+      "Todas son correctas.",
+      "Plan de Atención a la Diversidad.",
+      "Proyecto Educativo de Centro (PEC).",
+      "Plan de acción tutorial."
+    ],
+    "answer": 2
+  }
+];
+const $ = s => document.querySelector(s);
+const state = { pool: [], current: 0, correct: 0, answers: [], selected: null, examSelections: {} };
+function shuffle(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+function prepQuestion(q){
+  const options = q.options.map((text,idx)=>({text, original:idx}));
+  const out = {...q, options: $('#shuffleA').checked ? shuffle(options) : options};
+  out.correctShown = out.options.findIndex(o=>o.original===q.answer);
+  return out;
+}
+function renderStats(){
+  const t1=BANK.filter(q=>q.tema==='TEMA 1').length, t2=BANK.filter(q=>q.tema==='TEMA 2').length;
+  const failed=JSON.parse(localStorage.getItem('msecFailed')||'[]').length;
+  $('#bankStats').innerHTML=`<div class="stat"><b>${BANK.length}</b><span>preguntas totales</span></div><div class="stat"><b>${t1}</b><span>Tema 1</span></div><div class="stat"><b>${t2}</b><span>Tema 2</span></div><div class="stat"><b>${failed}</b><span>falladas guardadas</span></div>`;
+}
+function start(){
+  let pool = BANK.map((q,i)=>({...q,id:i}));
+  const topic=$('#topic').value;
+  if(topic==='failed'){
+    const failed=new Set(JSON.parse(localStorage.getItem('msecFailed')||'[]'));
+    pool=pool.filter(q=>failed.has(q.id));
+    if(!pool.length){ alert('No hay preguntas falladas guardadas.'); return; }
+  } else if(topic!=='all') pool=pool.filter(q=>q.tema===topic);
+  if($('#shuffleQ').checked) pool=shuffle(pool);
+  const n=$('#count').value==='all'?pool.length:Math.min(parseInt($('#count').value,10),pool.length);
+  state.pool=pool.slice(0,n).map(prepQuestion); state.current=0; state.correct=0; state.answers=[]; state.selected=null; state.examSelections={};
+  $('#setup').classList.add('hidden'); $('#results').classList.add('hidden'); $('#quiz').classList.remove('hidden'); renderQuestion();
+}
+function renderQuestion(){
+  const q=state.pool[state.current]; state.selected=null;
+  $('#counter').textContent=`Pregunta ${state.current+1} de ${state.pool.length}`;
+  $('#liveScore').textContent=`Aciertos: ${state.correct}/${state.answers.length}`;
+  $('#progress').style.width=`${(state.current/state.pool.length)*100}%`;
+  $('#badge').textContent=q.tema;
+  $('#qtext').textContent=q.question;
+  $('#feedback').className='feedback'; $('#feedback').textContent=''; $('#nextBtn').disabled=$('#mode').value==='instant';
+  $('#answers').innerHTML='';
+  q.options.forEach((o,i)=>{
+    const b=document.createElement('button'); b.className='answer'; b.textContent=`${'ABCD'[i]}. ${o.text}`; b.onclick=()=>selectAnswer(i); $('#answers').appendChild(b);
+  });
+}
+function selectAnswer(i){
+  const q=state.pool[state.current]; const mode=$('#mode').value; state.selected=i;
+  [...document.querySelectorAll('.answer')].forEach((b,idx)=>{b.disabled=false;b.classList.toggle('reveal',idx===i && mode==='exam');});
+  if(mode==='exam'){ state.examSelections[state.current]=i; $('#nextBtn').disabled=false; return; }
+  const ok=i===q.correctShown; const buttons=[...document.querySelectorAll('.answer')];
+  buttons.forEach((b,idx)=>{ b.disabled=true; if(idx===q.correctShown)b.classList.add('correct'); if(idx===i&&!ok)b.classList.add('wrong'); });
+  $('#feedback').className='feedback '+(ok?'ok':'bad'); $('#feedback').textContent= ok ? 'Correcto.' : `Incorrecto. Respuesta correcta: ${'ABCD'[q.correctShown]}. ${q.options[q.correctShown].text}`;
+  state.answers[state.current]={id:q.id, question:q.question, tema:q.tema, ok, chosen:i, correct:q.correctShown, options:q.options.map(o=>o.text)};
+  if(ok) state.correct++;
+  $('#liveScore').textContent=`Aciertos: ${state.correct}/${state.answers.filter(Boolean).length}`; $('#nextBtn').disabled=false;
+}
+function next(){
+  if($('#mode').value==='exam'){
+    const q=state.pool[state.current], chosen=state.examSelections[state.current];
+    if(chosen===undefined){ state.answers[state.current]={id:q.id, question:q.question, tema:q.tema, ok:false, chosen:null, correct:q.correctShown, options:q.options.map(o=>o.text)}; }
+    else { const ok=chosen===q.correctShown; state.answers[state.current]={id:q.id, question:q.question, tema:q.tema, ok, chosen, correct:q.correctShown, options:q.options.map(o=>o.text)}; if(ok && !state.answers[state.current].counted){ state.correct++; state.answers[state.current].counted=true; } }
+  }
+  if(state.current < state.pool.length-1){ state.current++; renderQuestion(); } else finish();
+}
+function skip(){ state.selected=null; $('#nextBtn').disabled=false; next(); }
+function finish(){
+  $('#progress').style.width='100%'; $('#quiz').classList.add('hidden'); $('#results').classList.remove('hidden');
+  const done=state.pool.length; const correct=state.answers.filter(a=>a&&a.ok).length; const pct=Math.round(correct/done*100);
+  $('#finalScore').textContent=`${pct}%`; $('#finalTitle').textContent=`${correct} aciertos de ${done}`; $('#finalText').textContent=pct>=80?'Buen resultado. Repasa solo las falladas.':pct>=60?'Resultado aceptable. Conviene repetir las falladas.':'Conviene repasar el tema y repetir el test.';
+  const failedIds=state.answers.filter(a=>!a?.ok).map(a=>a.id); const old=new Set(JSON.parse(localStorage.getItem('msecFailed')||'[]')); failedIds.forEach(id=>old.add(id)); if(failedIds.length===0) state.answers.forEach(a=>old.delete(a.id)); localStorage.setItem('msecFailed', JSON.stringify([...old])); renderStats();
+  const review=state.answers.filter(a=>!a?.ok).map(a=>`<div class="reviewItem"><div><span class="pill bad">Fallada</span><span class="small">${a.tema}</span></div><b>${escapeHtml(a.question)}</b><div class="small" style="margin-top:8px">Tu respuesta: ${a.chosen===null?'Sin responder':escapeHtml('ABCD'[a.chosen]+'. '+a.options[a.chosen])}</div><div class="small">Correcta: ${escapeHtml('ABCD'[a.correct]+'. '+a.options[a.correct])}</div></div>`).join('');
+  $('#review').innerHTML= review || '<div class="reviewItem"><span class="pill ok">Sin fallos</span> No hay preguntas que repasar.</div>';
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+function quit(){ $('#quiz').classList.add('hidden'); $('#setup').classList.remove('hidden'); }
+$('#startBtn').onclick=start; $('#nextBtn').onclick=next; $('#skipBtn').onclick=skip; $('#quitBtn').onclick=quit; $('#newTest').onclick=()=>{ $('#results').classList.add('hidden'); $('#setup').classList.remove('hidden');};
+$('#retryFailed').onclick=()=>{ $('#topic').value='failed'; $('#count').value='all'; $('#results').classList.add('hidden'); $('#setup').classList.remove('hidden'); start();};
+$('#clearFailed').onclick=()=>{ localStorage.removeItem('msecFailed'); renderStats(); };
+$('#exportResults').onclick=async()=>{ const txt=`Test 02MSEC\nResultado: ${$('#finalTitle').textContent} (${$('#finalScore').textContent})\nFalladas: ${state.answers.filter(a=>!a?.ok).length}`; await navigator.clipboard.writeText(txt); alert('Resumen copiado.'); };
+document.addEventListener('keydown',e=>{ if($('#quiz').classList.contains('hidden')) return; const k=e.key; if(['1','2','3','4'].includes(k)){ const idx=parseInt(k)-1; const b=document.querySelectorAll('.answer')[idx]; if(b&&!b.disabled) b.click(); } if(k==='Enter'&&!$('#nextBtn').disabled) next(); });
+renderStats();
+</script>
+</body>
+</html>
